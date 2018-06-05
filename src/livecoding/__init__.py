@@ -5,6 +5,7 @@ from .projectbrowser import ProjectBrowser
 from .pythonreloader import PythonReloader
 from .filewatcher import FileWatcher
 from .livecoding import LiveCoding
+from .moduleloader import recursively_register_types
 
 MODULE_NAME = 'livecoding'
 

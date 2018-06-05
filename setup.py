@@ -11,7 +11,7 @@ setup(
     author='Alexander Rössler',
     author_email='alex@machinekoder.com',
     description='Live coding for PyQt',
-    install_requires=['PyQt5'],
+    install_requires=['PyQt5', 'six'],
     extras_require={
         'dev': [
             'pytest',
@@ -19,5 +19,8 @@ setup(
             'pytest-cov',
             'pytest-qt'
         ]
-    }
+    },
+    scripts=[
+        'bin/pyqt_live_runner'
+    ]
 )

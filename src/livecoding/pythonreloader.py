@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
+import site
 
 from PyQt5.QtCore import (QObject, pyqtSlot)
 
@@ -12,4 +13,9 @@ class PythonReloader(QObject):
 
     @pyqtSlot()
     def restart(self):
+        import_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
+        python_path = os.environ.get('PYTHONPATH', '')
+        if import_dir not in python_path:
+            python_path += ':{}'.format(import_dir)
+        os.environ['PYTHONPATH'] = python_path
         os.execv(self._main, sys.argv)

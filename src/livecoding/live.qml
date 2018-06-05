@@ -130,7 +130,7 @@ ApplicationWindow {
 
     ProjectBrowser {
         id: browser
-        projectPath: projectPath
+        projectPath: userProjectPath
     }
 
     FileWatcher {
@@ -146,7 +146,9 @@ ApplicationWindow {
             "*.jsc",
             "*.pyc",
             ".#*",
-            "__pycache__"
+            "__pycache__",
+            "*___jb_tmp___", // PyCharm safe write
+            "*___jb_old___",
         ]
     }
 
