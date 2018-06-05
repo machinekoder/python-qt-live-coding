@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-import site
 
 from PyQt5.QtCore import (QObject, pyqtSlot)
 
