@@ -6,12 +6,15 @@ import argparse
 import traceback
 
 from PyQt5.QtCore import QTimer, QObject
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QMessageBox
 from PyQt5.QtQml import QQmlApplicationEngine
 
 import livecoding
 from livecoding import PythonReloader
 from livecoding import recursively_register_types
+
+MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
 class LiveCodingGui(QObject):
@@ -21,8 +24,7 @@ class LiveCodingGui(QObject):
 
         livecoding.register_types()
 
-        path = os.path.dirname(os.path.abspath(__file__))
-        qml_main = os.path.join(path, 'live.qml')
+        qml_main = os.path.join(MODULE_PATH, 'live.qml')
 
         project_path = os.path.realpath(args.path)
         recursively_register_types(project_path)
@@ -66,7 +68,7 @@ def main(main_file):
     app.setOrganizationName('Machine Koder')
     app.setOrganizationDomain('machinekoder.com')
     app.setApplicationName('Live Coding example')
-    # app.setWindowIcon(QIcon('./icons/application/png/icon.png'))
+    app.setWindowIcon(QIcon(os.path.join(MODULE_PATH, 'icon.png')))
 
     # noinspection PyUnusedLocal
     gui = LiveCodingGui(arguments, main_file)
