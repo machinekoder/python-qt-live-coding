@@ -67,7 +67,7 @@ def main(main_file):
     app = QApplication(sys.argv)
     app.setOrganizationName('Machine Koder')
     app.setOrganizationDomain('machinekoder.com')
-    app.setApplicationName('Live Coding example')
+    app.setApplicationName('Python Qt Live Coding')
     app.setWindowIcon(QIcon(os.path.join(MODULE_PATH, 'icon.png')))
 
     # noinspection PyUnusedLocal

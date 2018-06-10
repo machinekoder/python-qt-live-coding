@@ -7,7 +7,7 @@ import livecoding 1.0
 
 ApplicationWindow {
     id: root
-    title: "Live Coding"
+    title: qsTr("Python Qt Live Coding")
     width: 1024
     height: 800
     visible: true

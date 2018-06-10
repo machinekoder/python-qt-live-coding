@@ -21,6 +21,6 @@ setup(
         ]
     },
     scripts=[
-        'bin/pyqt_live_runner'
+        'bin/python_qt_live_coding'
     ]
 )
