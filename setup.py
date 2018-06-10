@@ -30,5 +30,6 @@ setup(
     },
     scripts=[
         'bin/python_qt_live_coding'
-    ]
+    ],
+    include_package_data=True,
 )

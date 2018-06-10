@@ -1,0 +1,4 @@
+include README.md
+recursive-include example *.py *.qml qmldir
+include src/livecoding/*.qml
+include src/livecoding/*.png
