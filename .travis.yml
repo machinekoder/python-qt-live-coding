@@ -8,6 +8,6 @@ python:
 install:
   - pip install -e .[dev]
 script:
-  - pytest .
+  - pytest -v .
 #after_success:
   #coveralls
