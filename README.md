@@ -1,5 +1,7 @@
 # Live Coding Environment for Python, Qt and QML
 
+![Logo](./src/livecoding/icon.png)
+
 This project provides a live coding environment for Python and Qt.
 
 At the moment this project only support PyQt as Qt for Python bindings. 
