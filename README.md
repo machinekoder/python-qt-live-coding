@@ -18,6 +18,12 @@ To install the live coding environment run:
 python setup.py install
 ```
 
+or install it via pip
+
+```bash
+pip install python-qt-live-coding
+```
+
 ## Use
 
 The live coding environment comes with a live runner which enables your to live
