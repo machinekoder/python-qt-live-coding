@@ -2,11 +2,11 @@
 from setuptools import setup
 
 setup(
-    name='pyqt-live-coding',
+    name='python-qt-live-coding',
     version='0.1.0',
     packages=['livecoding'],
     package_dir={'': 'src'},
-    url='https://github.com/machinekoder/pyqt-live-coding/',
+    url='https://github.com/machinekoder/python-qt-live-coding/',
     license='MIT',
     author='Alexander Rössler',
     author_email='alex@machinekoder.com',
