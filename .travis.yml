@@ -1,0 +1,14 @@
+sudo: false
+language: python
+python:
+  - 3.6
+#env:
+#  - TOX_ENV=py
+#  - TOX_ENV=flake8
+install:
+  - pip install -e
+  - pip install -e .[dev]
+script:
+  - pytest .
+#after_success:
+  #coveralls
