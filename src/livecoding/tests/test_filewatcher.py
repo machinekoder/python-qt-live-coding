@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 import pytest
+import shutil
+import os
 from PyQt5.QtCore import QUrl
 from PyQt5.QtTest import QSignalSpy
+
+
+SIGNAL_WAIT_TIMEOUT = 10
 
 
 @pytest.fixture
@@ -11,55 +16,98 @@ def watcher():
 
 
 def test_creating_and_writing_file_in_directory_emits_signal(qtbot, tmpdir, watcher):
-    subdir = tmpdir.mkdir('sub')
-    watcher.fileUrl = QUrl('file://' + str(subdir))
+    watcher.fileUrl = QUrl('file://' + str(tmpdir))
     watcher.enabled = True
     watcher.recursive = True
-
     spy = QSignalSpy(watcher.fileChanged)
 
-    path = str(subdir.join('test.txt'))
-    with open(path, 'wt') as f:
-        f.write('foo')
+    f = tmpdir.join('test.txt')
+    f.write('foo')
 
-    spy.wait(100)
+    spy.wait(SIGNAL_WAIT_TIMEOUT)
     assert len(spy) == 1
 
 
 def test_changing_file_emits_signal(qtbot, tmpdir, watcher):
-    subdir = tmpdir.mkdir('sub')
-    path = str(subdir.join('test.txt'))
+    f = tmpdir.join('test.txt')
+    f.write('foo')
     watcher.recursive = False
-
-    with open(path, 'wt') as f:
-        f.write('foo')
-
-    watcher.fileUrl = QUrl('file://' + path)
+    watcher.fileUrl = QUrl('file://' + str(f))
     watcher.enabled = True
-
     spy = QSignalSpy(watcher.fileChanged)
-    with open(path, 'at') as f:
-        f.write('bar')
-    spy.wait(100)
+
+    f.write('bar')
+
+    spy.wait(SIGNAL_WAIT_TIMEOUT)
     assert len(spy) == 1
 
 
 def test_creating_and_writing_file_on_filter_list_doesnt_emit_signal(qtbot, tmpdir, watcher):
-    subdir = tmpdir.mkdir('sub')
     watcher.nameFilters = ['.#*']
-    watcher.fileUrl = QUrl('file://' + str(subdir))
+    watcher.fileUrl = QUrl('file://' + str(tmpdir))
     watcher.enabled = True
     watcher.recursive = True
-
     spy = QSignalSpy(watcher.fileChanged)
-    assert len(spy) == 0  # I don't why this is necessary, but it is
 
-    path = str(subdir.join('.#test.txt'))
-    with open(path, 'wt') as f:
-        f.write('foo')
+    f = tmpdir.join('.#test.txt')
+    f.write('foo')
 
-    spy.wait(100)
+    spy.wait(SIGNAL_WAIT_TIMEOUT)
     assert len(spy) == 0
 
 
-# TODO: add more tests for creating file in subdirectory, deleting files, ...
+def test_renaming_file_emits_signal(qtbot, tmpdir, watcher):
+    f = tmpdir.join('supp')
+    f.write('pncp0A')
+    watcher.recursive = True
+    watcher.fileUrl = QUrl('file://' + str(tmpdir))
+    watcher.enabled = True
+    spy = QSignalSpy(watcher.fileChanged)
+
+    os.rename(str(f), os.path.join(str(tmpdir), 'energist'))
+
+    spy.wait(SIGNAL_WAIT_TIMEOUT)
+    assert len(spy) > 0
+
+
+def test_deleting_file_emits_signal(qtbot, tmpdir, watcher):
+    f = tmpdir.join('lowered')
+    f.write('pncp0A')
+    watcher.recursive = True
+    watcher.fileUrl = QUrl('file://' + str(tmpdir))
+    watcher.enabled = True
+    spy = QSignalSpy(watcher.fileChanged)
+
+    os.remove(str(f))
+
+    spy.wait(SIGNAL_WAIT_TIMEOUT)
+    assert len(spy) == 1
+
+
+def test_deleting_directory_emits_signal(qtbot, tmpdir, watcher):
+    subdir = tmpdir.mkdir('flukily')
+    f = subdir.join("yeasts")
+    f.write("Wlb2Msh")  # need to create a file inside the tmpdir to force creation
+    watcher.recursive = True
+    watcher.fileUrl = QUrl('file://' + str(tmpdir))
+    watcher.enabled = True
+    spy = QSignalSpy(watcher.fileChanged)
+
+    shutil.rmtree(str(subdir))
+
+    spy.wait(SIGNAL_WAIT_TIMEOUT)
+    assert len(spy) == 1
+
+
+def test_creating_file_in_subdirectory_emits_signal(qtbot, tmpdir, watcher):
+    subdir = tmpdir.mkdir('sub')
+    watcher.recursive = True
+    watcher.fileUrl = QUrl('file://' + str(tmpdir))
+    watcher.enabled = True
+    spy = QSignalSpy(watcher.fileChanged)
+
+    f = subdir.join('hagglers.foo')
+    f.write('DNsqu')
+
+    spy.wait(SIGNAL_WAIT_TIMEOUT)
+    assert len(spy) == 1

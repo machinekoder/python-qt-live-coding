@@ -94,7 +94,7 @@ class FileWatcher(QObject):
             return False
 
         if self._recursive and os.path.isdir(local_file):
-            file_count = 0
+            new_paths = {local_file}
             self._file_system_watcher.addPath(local_file)
 
             it = QDirIterator(local_file, QDirIterator.Subdirectories | QDirIterator.FollowSymlinks)
@@ -109,9 +109,9 @@ class FileWatcher(QObject):
                 if filename == '..' or filename == '.' or filtered:
                     continue
                 self._file_system_watcher.addPath(filepath)
-                file_count += 1
+                new_paths.add(filepath)
 
-            return file_count is not (len(files) + len(directories) - 1)
+            return new_paths != set(files).union(set(directories))
 
         elif os.path.exists(local_file):
             self._file_system_watcher.addPath(local_file)
