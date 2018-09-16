@@ -17,11 +17,9 @@ ApplicationWindow {
         id: d
 
         function reload() {
-            busyIndicator.running = true;
             loader.source = "";
             LiveCoding.clearQmlComponentCache();
             loader.source = fileDialog.file;
-            busyIndicator.running = false;
         }
 
         function openWithSystemEditor() {
@@ -81,10 +79,19 @@ ApplicationWindow {
                 Layout.fillWidth: true
             }
 
-            BusyIndicator {
-                Layout.preferredHeight: 30
-                id: busyIndicator
-                running: false
+            CheckBox {
+                text: qsTr("On Top")
+
+                onClicked: {
+                    if (checked) {
+                        root.flags = root.flags | Qt.WindowStaysOnTopHint;
+                    }
+                    else {
+                        root.flags = root.flags & ~Qt.WindowStaysOnTopHint;
+                    }
+                }
+
+                Component.onCompleted: checked = root.flags & Qt.WindowStaysOnTopHint
             }
         }
 
