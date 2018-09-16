@@ -6,7 +6,7 @@ from python_qt_binding.QtCore import QUrl
 from python_qt_binding.QtTest import QSignalSpy
 
 
-SIGNAL_WAIT_TIMEOUT = 10
+SIGNAL_WAIT_TIMEOUT = 50
 
 
 @pytest.fixture
