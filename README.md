@@ -26,7 +26,7 @@ You also need to install PyQt or PySide2 for this application to work. The quick
 achieve this is to use pip.
 
 ```bash
-pip install PyQt
+pip install PyQt5
 ```
 
 or 
