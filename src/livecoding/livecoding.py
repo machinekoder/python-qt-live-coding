@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 
-from PyQt5.QtCore import QObject, pyqtSlot, QUrl
-from PyQt5.QtGui import QDesktopServices
+from python_qt_binding.QtCore import QObject, pyqtSlot, QUrl
+from python_qt_binding.QtGui import QDesktopServices
 
 
 class LiveCoding(QObject):

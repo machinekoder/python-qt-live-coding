@@ -2,8 +2,9 @@
 import os
 from fnmatch import fnmatch
 
-from PyQt5.QtCore import (QObject, pyqtProperty, pyqtSignal, QFileSystemWatcher,
-                          QUrl, QDirIterator, qWarning)
+from python_qt_binding.QtCore import (
+    QObject, pyqtProperty, pyqtSignal, QFileSystemWatcher, QUrl, QDirIterator, qWarning
+)
 
 
 class FileWatcher(QObject):

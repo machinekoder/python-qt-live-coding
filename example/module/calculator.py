@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtCore import QObject, pyqtSignal, pyqtProperty
+from python_qt_binding.QtCore import QObject, pyqtSignal, pyqtProperty
 
 
 class Calculator(QObject):

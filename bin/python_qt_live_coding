@@ -1,7 +1,18 @@
 #!/usr/bin/env python
 # coding=utf-8
+import argparse
+import sys
+
 import livecoding.gui
 
 
 if __name__ == '__main__':
-    livecoding.gui.main(__file__)
+    parser = argparse.ArgumentParser(description="Live Coding GUI")
+    parser.add_argument('path', help='Path where the live coding environment should be executed.', nargs='?', default='.')
+    parser.add_argument('-b', '--binding', help='Force the Qt binding to be used.', default='')
+    arguments, unknown = parser.parse_known_args()
+
+    if arguments.binding:
+        sys.SELECT_QT_BINDING = arguments.binding
+
+    livecoding.gui.main(__file__, arguments)

@@ -2,13 +2,12 @@
 import sys
 import os
 import signal
-import argparse
 import traceback
 
-from PyQt5.QtCore import QTimer, QObject
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QApplication, QMessageBox
-from PyQt5.QtQml import QQmlApplicationEngine
+from python_qt_binding.QtCore import QTimer, QObject
+from python_qt_binding.QtGui import QIcon
+from python_qt_binding.QtWidgets import QApplication
+from python_qt_binding.QtQml import QQmlApplicationEngine
 
 import livecoding
 from livecoding import PythonReloader
@@ -57,12 +56,8 @@ class LiveCodingGui(QObject):
         sys.stderr.write("FATAL ERROR: An unexpected error occurred:\n{}\n\n{}\n".format(evalue, tb))
 
 
-def main(main_file):
+def main(main_file, arguments):
     signal.signal(signal.SIGINT, lambda *args: LiveCodingGui.shutdown())
-
-    parser = argparse.ArgumentParser(description="Live Coding GUI")
-    parser.add_argument('path', help='Path where the live coding should be executed.', nargs='?', default='.')
-    arguments, unknown = parser.parse_known_args()
 
     app = QApplication(sys.argv)
     app.setOrganizationName('Machine Koder')

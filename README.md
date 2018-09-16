@@ -5,10 +5,8 @@
 
 ![Logo](./src/livecoding/icon.png)
 
-This project provides a live coding environment for Python and Qt.
-
-At the moment this project only support PyQt as Qt for Python bindings. 
-However, PySide (or Python for Qt) support will be added when available.
+This project provides a live coding environment for Python and Qt. It supports both [PyQt](https://riverbankcomputing.com/software/pyqt/intro) and [Qt for Python (PySide2)](http://wiki.qt.io/Qt_for_Python) 
+via the [python_qt_binding](https://pypi.org/project/python_qt_binding/).
 
 ## Install
 
@@ -22,6 +20,19 @@ or install it via pip
 
 ```bash
 pip install python-qt-live-coding
+```
+
+You also need to install PyQt or PySide2 for this application to work. The quickest way to
+achieve this is to use pip.
+
+```bash
+pip install PyQt
+```
+
+or 
+
+```bash
+pip install pyside2
 ```
 
 ## Use
@@ -65,3 +76,13 @@ See the example in [example/module/\_\_init__.py](./example/module/__init__.py).
 
 However, so far automatic reloading of Python code is not support. 
 When you work on a Python module please use the `Restart` button which restarts the live coding application instead.
+
+## Forcing PyQt or Python for Qt (PySide2) usage
+
+In some cases you might want to force which Python Qt binding `python_qt_live_coding` is using.
+This can be done by passing the optional `--binding` argument via the command line.
+
+
+```bash
+python_qt_live_coding -b pyside .
+```

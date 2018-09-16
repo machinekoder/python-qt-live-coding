@@ -2,7 +2,7 @@
 import os
 import sys
 
-from PyQt5.QtCore import (QObject, pyqtSlot)
+from python_qt_binding.QtCore import (QObject, pyqtSlot)
 
 
 class PythonReloader(QObject):

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
-from PyQt5.QtCore import QObject, pyqtProperty, pyqtSignal, QUrl, pyqtSlot
+from python_qt_binding.QtCore import QObject, pyqtProperty, pyqtSignal, QUrl, pyqtSlot
 
 
 class ProjectBrowser(QObject):

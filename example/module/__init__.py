@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtQml import qmlRegisterType
+from python_qt_binding.QtQml import qmlRegisterType
 
 from .calculator import Calculator
 

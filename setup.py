@@ -19,7 +19,9 @@ setup(
     description='Live coding for Python, Qt and QML',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    install_requires=['PyQt5', 'six'],
+    install_requires=[
+        'six', 'python_qt_binding'
+    ],
     extras_require={
         'dev': [
             'pytest',

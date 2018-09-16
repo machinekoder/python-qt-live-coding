@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtQml import qmlRegisterType, qmlRegisterSingletonType
+from python_qt_binding.QtQml import qmlRegisterType, qmlRegisterSingletonType
 
 from .projectbrowser import ProjectBrowser
 from .pythonreloader import PythonReloader
