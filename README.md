@@ -86,3 +86,8 @@ This can be done by passing the optional `--binding` argument via the command li
 ```bash
 python_qt_live_coding -b pyside .
 ```
+
+## PyCharm Support
+
+For this application to work with PyCharm and other IntelliJ IDEs please disable the "safe write" feature.
+The feature writes a temporary file before saving any file, which can confuse the file change watcher.
