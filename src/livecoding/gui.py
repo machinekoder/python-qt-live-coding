@@ -9,9 +9,9 @@ from python_qt_binding.QtGui import QIcon
 from python_qt_binding.QtWidgets import QApplication
 from python_qt_binding.QtQml import QQmlApplicationEngine
 
-import livecoding
-from livecoding import PythonReloader
-from livecoding import recursively_register_types
+from .register_qml_types import register_types
+from .pythonreloader import PythonReloader
+from .moduleloader import recursively_register_types
 
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -21,7 +21,7 @@ class LiveCodingGui(QObject):
         super(LiveCodingGui, self).__init__(parent)
         sys.excepthook = self._display_error
 
-        livecoding.register_types()
+        register_types()
 
         qml_main = os.path.join(MODULE_PATH, 'live.qml')
 
