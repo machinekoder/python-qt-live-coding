@@ -3,7 +3,13 @@ import os
 from fnmatch import fnmatch
 
 from python_qt_binding.QtCore import (
-    QObject, pyqtProperty, pyqtSignal, QFileSystemWatcher, QUrl, QDirIterator, qWarning
+    QObject,
+    pyqtProperty,
+    pyqtSignal,
+    QFileSystemWatcher,
+    QUrl,
+    QDirIterator,
+    qWarning,
 )
 
 
@@ -30,7 +36,9 @@ class FileWatcher(QObject):
         self.recursiveChanged.connect(self._update_watched_file)
         self.nameFiltersChanged.connect(self._update_watched_file)
         self._file_system_watcher.fileChanged.connect(self._on_watched_file_changed)
-        self._file_system_watcher.directoryChanged.connect(self._on_watched_directory_changed)
+        self._file_system_watcher.directoryChanged.connect(
+            self._on_watched_directory_changed
+        )
 
     @pyqtProperty(QUrl, notify=fileUrlChanged)
     def fileUrl(self):
@@ -71,7 +79,9 @@ class FileWatcher(QObject):
 
     @nameFilters.setter
     def nameFilters(self, value):
-        if self._name_filters == value:  # note: we compare the reference here, not the actual list
+        if (
+            self._name_filters == value
+        ):  # note: we compare the reference here, not the actual list
             return
         self._name_filters = value
         self.nameFiltersChanged.emit(value)
@@ -98,7 +108,9 @@ class FileWatcher(QObject):
             new_paths = {local_file}
             self._file_system_watcher.addPath(local_file)
 
-            it = QDirIterator(local_file, QDirIterator.Subdirectories | QDirIterator.FollowSymlinks)
+            it = QDirIterator(
+                local_file, QDirIterator.Subdirectories | QDirIterator.FollowSymlinks
+            )
             while it.hasNext():
                 filepath = it.next()
                 filename = os.path.basename(filepath)

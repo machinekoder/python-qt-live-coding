@@ -12,7 +12,9 @@ class ProjectBrowser(QObject):
         super(ProjectBrowser, self).__init__(parent)
 
         path = os.path.dirname(os.path.abspath(__file__))
-        self._project_path = QUrl.fromLocalFile(os.path.realpath(os.path.join(path, '..')))
+        self._project_path = QUrl.fromLocalFile(
+            os.path.realpath(os.path.join(path, '..'))
+        )
         self._qml_files = []
 
         self.update()

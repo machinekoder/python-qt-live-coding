@@ -12,6 +12,7 @@ SIGNAL_WAIT_TIMEOUT = 50
 @pytest.fixture
 def watcher():
     from livecoding import FileWatcher
+
     return FileWatcher()
 
 
@@ -42,7 +43,9 @@ def test_changing_file_emits_signal(qtbot, tmpdir, watcher):
     assert len(spy) == 1
 
 
-def test_creating_and_writing_file_on_filter_list_doesnt_emit_signal(qtbot, tmpdir, watcher):
+def test_creating_and_writing_file_on_filter_list_doesnt_emit_signal(
+    qtbot, tmpdir, watcher
+):
     watcher.nameFilters = ['.#*']
     watcher.fileUrl = QUrl('file://' + str(tmpdir))
     watcher.enabled = True

@@ -10,25 +10,31 @@ from livecoding import recursively_register_types
 def project_dir(tmpdir):
     path = tmpdir.mkdir('module1')
     file = path.join('__init__.py')
-    file.write('''\
+    file.write(
+        '''\
 def register_types():
     print('registered module1')
-    ''')
+    '''
+    )
     file = path.join('bla.py')
     file.write('# nothing here')
 
     path = path.mkdir('module2')
     file = path.join('__init__.py')
-    file.write('''\
+    file.write(
+        '''\
 def register_types():
     print('registered module2')
-    ''')
+    '''
+    )
 
     path = tmpdir.mkdir('other_dir')
     file = path.join('__init__.py')
-    file.write('''\
+    file.write(
+        '''\
 print('bar')
-    ''')
+    '''
+    )
     return str(tmpdir)
 
 

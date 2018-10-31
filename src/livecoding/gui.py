@@ -53,7 +53,9 @@ class LiveCodingGui(QObject):
     @staticmethod
     def _display_error(etype, evalue, etraceback):
         tb = ''.join(traceback.format_exception(etype, evalue, etraceback))
-        sys.stderr.write("FATAL ERROR: An unexpected error occurred:\n{}\n\n{}\n".format(evalue, tb))
+        sys.stderr.write(
+            "FATAL ERROR: An unexpected error occurred:\n{}\n\n{}\n".format(evalue, tb)
+        )
 
 
 def main(main_file, arguments):
