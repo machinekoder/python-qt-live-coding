@@ -17,4 +17,5 @@ class PythonReloader(QObject):
         if import_dir not in python_path:
             python_path += ':{}'.format(import_dir)
         os.environ['PYTHONPATH'] = python_path
-        os.execv(self._main, sys.argv)
+        args = [sys.executable, self._main] + sys.argv[1:]
+        os.execv(sys.executable, args)
