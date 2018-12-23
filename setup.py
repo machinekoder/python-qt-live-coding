@@ -10,7 +10,7 @@ with open(path.join(this_directory, 'README.md')) as f:
 
 setup(
     name='python-qt-live-coding',
-    version='0.2.3',
+    version='0.2.4',
     packages=['livecoding'],
     package_dir={'': 'src'},
     url='https://github.com/machinekoder/python-qt-live-coding/',
