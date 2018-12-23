@@ -1,0 +1,5 @@
+[flake8]
+# E501: line-length checking, handled by black
+# E203: space after :, not PEP8 compliant
+# W503: no operator after line break, not PEP8 compliant
+ignore = E501, E203, W503
