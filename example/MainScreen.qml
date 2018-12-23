@@ -9,8 +9,8 @@ Item {
 
     Calculator {
         id: calc
-        in1: in1Input.text
-        in2: in2Input.text
+        in1: Number(in1Input.text)
+        in2: Number(in2Input.text)
     }
 
     Rectangle {
