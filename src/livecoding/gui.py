@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 import sys
 import os
 import signal
@@ -68,6 +68,6 @@ def main(main_file, arguments):
     app.setWindowIcon(QIcon(os.path.join(MODULE_PATH, 'icon.png')))
 
     # noinspection PyUnusedLocal
-    gui = LiveCodingGui(arguments, main_file)
+    LiveCodingGui(arguments, main_file)
 
     sys.exit(app.exec_())

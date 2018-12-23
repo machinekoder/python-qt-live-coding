@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 from python_qt_binding.QtQml import qmlRegisterType, qmlRegisterSingletonType
 
 from .projectbrowser import ProjectBrowser
