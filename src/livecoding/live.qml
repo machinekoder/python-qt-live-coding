@@ -47,10 +47,56 @@ ApplicationWindow {
     property alias  visibility: root.visibility
   }
 
+  Button {
+    id: dummyButton
+    visible: false
+  }
+
+  Item {
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: dummyButton.height / 2
+    width: height
+    z: 10
+    visible: contentItem.loaded
+
+    MouseArea {
+       id: smallArea
+       anchors.fill: parent
+       hoverEnabled: true
+       propagateComposedEvents: true
+
+       onClicked: mouse.accepted = false
+       onEntered: fullArea.visible = true
+    }
+  }
+
+  MouseArea {
+    id: fullArea
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    height: 40
+    z: 9
+    hoverEnabled: true
+    propagateComposedEvents: true
+    visible: false
+
+    onClicked: mouse.accepted = false
+    onPressed: mouse.accepted = false
+    onReleased: mouse.accepted  = false
+    onExited: visible = false
+  }
+
   ColumnLayout {
     anchors.fill: parent
+    anchors.topMargin: menuBar.visible ? 5 : 0
 
     RowLayout {
+      id: menuBar
+      visible: smallArea.containsMouse || fullArea.containsMouse|| !contentItem.loaded
+
       Button {
         Layout.preferredHeight: 30
         text: qsTr("Edit")
@@ -80,6 +126,23 @@ ApplicationWindow {
       }
 
       CheckBox {
+        Layout.preferredHeight: 30
+        text: qsTr("Fullscreen")
+
+        onClicked: {
+          if (checked) {
+            root.visibility = Window.FullScreen;
+          }
+          else {
+            root.visibility = Window.AutomaticVisibility;
+          }
+        }
+
+        Component.onCompleted: checked = root.visibility === Window.FullScreen
+      }
+
+      CheckBox {
+        Layout.preferredHeight: 30
         text: qsTr("On Top")
 
         onClicked: {
@@ -95,18 +158,24 @@ ApplicationWindow {
       }
     }
 
-    Loader {
-      id: loader
+    Item {
+      id: contentItem
       Layout.fillWidth: true
       Layout.fillHeight: true
+      property bool loaded: loader.status !== Loader.Null
 
-      onStatusChanged: {
-        if (status !== Loader.Error) {
-          return;
+      Loader {
+        id: loader
+        anchors.fill: parent
+
+        onStatusChanged: {
+          if (status !== Loader.Error) {
+            return;
+          }
+
+          var msg = loader.sourceComponent.errorString();
+          errorLabel.text = qsTr("QML Error: Loading QML file failed:\n") + msg;
         }
-
-        var msg = loader.sourceComponent.errorString();
-        errorLabel.text = qsTr("QML Error: Loading QML file failed:\n") + msg;
       }
 
       Label {
@@ -123,7 +192,7 @@ ApplicationWindow {
         id: fileDialog
         anchors.fill: parent
         model: browser.qmlFiles
-        visible: loader.status === Loader.Null
+        visible: !contentItem.loaded
 
         onSelectedChanged: {
           if (selected) {
@@ -131,7 +200,6 @@ ApplicationWindow {
           }
         }
       }
-
     }
   }
 
@@ -153,6 +221,7 @@ ApplicationWindow {
       "*.jsc",
       "*.pyc",
       ".#*",
+      ".*",
       "__pycache__",
       "*___jb_tmp___", // PyCharm safe write
       "*___jb_old___",
