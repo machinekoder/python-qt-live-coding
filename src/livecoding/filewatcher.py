@@ -4,8 +4,8 @@ from fnmatch import fnmatch
 
 from python_qt_binding.QtCore import (
     QObject,
-    pyqtProperty,
-    pyqtSignal,
+    Property,
+    Signal,
     QFileSystemWatcher,
     QUrl,
     QDirIterator,
@@ -15,11 +15,11 @@ from python_qt_binding.QtCore import (
 
 class FileWatcher(QObject):
 
-    fileUrlChanged = pyqtSignal(QUrl)
-    enabledChanged = pyqtSignal(bool)
-    recursiveChanged = pyqtSignal(bool)
-    nameFiltersChanged = pyqtSignal('QStringList')
-    fileChanged = pyqtSignal()
+    fileUrlChanged = Signal(QUrl)
+    enabledChanged = Signal(bool)
+    recursiveChanged = Signal(bool)
+    nameFiltersChanged = Signal('QStringList')
+    fileChanged = Signal()
 
     def __init__(self, parent=None):
         super(FileWatcher, self).__init__(parent)
@@ -40,7 +40,7 @@ class FileWatcher(QObject):
             self._on_watched_directory_changed
         )
 
-    @pyqtProperty(QUrl, notify=fileUrlChanged)
+    @Property(QUrl, notify=fileUrlChanged)
     def fileUrl(self):
         return self._file_url
 
@@ -51,7 +51,7 @@ class FileWatcher(QObject):
         self._file_url = value
         self.fileUrlChanged.emit(value)
 
-    @pyqtProperty(bool, notify=enabledChanged)
+    @Property(bool, notify=enabledChanged)
     def enabled(self):
         return self._enabled
 
@@ -62,7 +62,7 @@ class FileWatcher(QObject):
         self._enabled = value
         self.enabledChanged.emit(value)
 
-    @pyqtProperty(bool, notify=recursiveChanged)
+    @Property(bool, notify=recursiveChanged)
     def recursive(self):
         return self._recursive
 
@@ -73,7 +73,7 @@ class FileWatcher(QObject):
         self._recursive = value
         self.recursiveChanged.emit(value)
 
-    @pyqtProperty('QStringList', notify=nameFiltersChanged)
+    @Property('QStringList', notify=nameFiltersChanged)
     def nameFilters(self):
         return self._name_filters
 

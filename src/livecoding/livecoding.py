@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
-from python_qt_binding.QtCore import QObject, pyqtSlot, QUrl
+from python_qt_binding.QtCore import QObject, Slot, QUrl
 from python_qt_binding.QtGui import QDesktopServices
 
 
@@ -17,16 +17,16 @@ class LiveCoding(QObject):
 
         return LiveCoding()
 
-    @pyqtSlot(QUrl, result=bool)
+    @Slot(QUrl, result=bool)
     def openUrlWithDefaultApplication(self, url):
         return QDesktopServices.openUrl(url)
 
-    @pyqtSlot()
+    @Slot()
     def clearQmlComponentCache(self):
         LiveCoding._engine.clearComponentCache()
         # maybe qmlClearTypeRegistrations
 
-    @pyqtSlot(str, result=QUrl)
+    @Slot(str, result=QUrl)
     def localPathToUrl(self, path):
         abspath = os.path.abspath(os.path.expanduser(path))
         return QUrl.fromLocalFile(abspath)
