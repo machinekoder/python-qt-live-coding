@@ -88,17 +88,18 @@ class FileWatcher(QObject):
 
     def _update_watched_file(self):
         files = self._file_system_watcher.files()
-        if any(files):
+        if files:
             self._file_system_watcher.removePaths(files)
         directories = self._file_system_watcher.directories()
-        if any(directories):
+        if directories:
             self._file_system_watcher.removePaths(directories)
 
         if not self._file_url.isValid() or not self._enabled:
-            return
+            return False
 
         if not self._file_url.isLocalFile():
             qWarning('Can only watch local files')
+            return False
 
         local_file = self._file_url.toLocalFile()
         if local_file is '':
