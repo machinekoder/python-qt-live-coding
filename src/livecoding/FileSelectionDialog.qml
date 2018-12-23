@@ -4,80 +4,80 @@ import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0
 
 Item {
-    property bool selected: false
-    property string folder: ""
-    property string file: ""
-    property bool autoSelect: true
-    property var model: []
+  property bool selected: false
+  property string folder: ""
+  property string file: ""
+  property bool autoSelect: true
+  property var model: []
 
-    id: root
+  id: root
 
-    QtObject {
-        id: d
-        readonly property var filteredModel: filterModel(root.model)
+  QtObject {
+    id: d
+    readonly property var filteredModel: filterModel(root.model)
 
-        function filterModel(model) {
-            var newModel = [];
-            for (var key in model) {
-                var item = model[key];
-                if (item.toLowerCase().indexOf(filterInput.text.toLowerCase()) !== -1) {
-                    newModel.push(item);
-                }
-            }
-            return newModel;
+    function filterModel(model) {
+      var newModel = [];
+      for (var key in model) {
+        var item = model[key];
+        if (item.toLowerCase().indexOf(filterInput.text.toLowerCase()) !== -1) {
+          newModel.push(item);
         }
-
-        function select(file) {
-            root.file = "file://" + file;
-            root.folder = "file://" + new String(file).substring(0, file.lastIndexOf('/'));
-            root.selected = true;
-        }
+      }
+      return newModel;
     }
 
-    Settings {
-        property alias filterText: filterInput.text
+    function select(file) {
+      root.file = "file://" + file;
+      root.folder = "file://" + new String(file).substring(0, file.lastIndexOf('/'));
+      root.selected = true;
     }
+  }
 
-    ColumnLayout {
-        anchors.fill: parent
+  Settings {
+    property alias filterText: filterInput.text
+  }
 
-        TextField {
-            id: filterInput
-            Layout.fillWidth: true
-            placeholderText: "filter"
+  ColumnLayout {
+    anchors.fill: parent
 
-            onFocusChanged: {
-                if (focus) {
-                    selectAll();
-                }
-            }
+    TextField {
+      id: filterInput
+      Layout.fillWidth: true
+      placeholderText: "filter"
+
+      onFocusChanged: {
+        if (focus) {
+          selectAll();
         }
+      }
+    }
 
-        ListView {
-            id: listView
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            clip: true
-            model: d.filteredModel
+    ListView {
+      id: listView
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+      clip: true
+      model: d.filteredModel
 
-            delegate: Button {
-                readonly property string data: d.filteredModel[index]
-                text: data
-                onClicked: d.select(text)
-                height: visible? 30 : 0
-            }
+      delegate: Button {
+        readonly property string data: d.filteredModel[index]
+        text: data
+        onClicked: d.select(text)
+        height: visible? 30 : 0
+      }
 
-            onCountChanged: {
-                if (root.autoSelect && (count == 1) && !root.selected) {
-                    selectTimer.start();
-                }
-            }
+      onCountChanged: {
+        if (root.autoSelect && (count == 1) && !root.selected) {
+          selectTimer.start();
         }
+      }
     }
+  }
 
-    Timer {
-        id: selectTimer
-        interval: 10
-        onTriggered: d.select(d.filteredModel[0]);
-    }
+  Timer {
+    id: selectTimer
+    interval: 10
+    onTriggered: d.select(d.filteredModel[0]);
+  }
 }
