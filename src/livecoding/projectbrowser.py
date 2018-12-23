@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
 
-from python_qt_binding.QtCore import QObject, pyqtProperty, pyqtSignal, QUrl, pyqtSlot
+from python_qt_binding.QtCore import QObject, Property, Signal, QUrl, Slot
 
 
 class ProjectBrowser(QObject):
-    projectPathChanged = pyqtSignal(QUrl)
-    qmlFilesChanged = pyqtSignal('QStringList')
+    projectPathChanged = Signal(QUrl)
+    qmlFilesChanged = Signal('QStringList')
 
     def __init__(self, parent=None):
         super(ProjectBrowser, self).__init__(parent)
@@ -21,7 +21,7 @@ class ProjectBrowser(QObject):
 
         self.projectPathChanged.connect(self._update_files)
 
-    @pyqtProperty(QUrl, notify=projectPathChanged)
+    @Property(QUrl, notify=projectPathChanged)
     def projectPath(self):
         return self._project_path
 
@@ -32,11 +32,11 @@ class ProjectBrowser(QObject):
         self._project_path = value
         self.projectPathChanged.emit(value)
 
-    @pyqtProperty('QStringList', notify=qmlFilesChanged)
+    @Property('QStringList', notify=qmlFilesChanged)
     def qmlFiles(self):
         return self._qml_files
 
-    @pyqtSlot()
+    @Slot()
     def update(self):
         self._update_files()
 

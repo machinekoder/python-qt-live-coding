@@ -6,7 +6,7 @@
 
 ![Logo](./src/livecoding/icon.png)
 
-This project provides a live coding environment for Python and Qt. It supports both [PyQt](https://riverbankcomputing.com/software/pyqt/intro) and [Qt for Python (PySide2)](http://wiki.qt.io/Qt_for_Python) 
+This project provides a live coding environment for Python and Qt. It supports both [PyQt](https://riverbankcomputing.com/software/pyqt/intro) and [Qt for Python (PySide2)](http://wiki.qt.io/Qt_for_Python)
 via the [python_qt_binding](https://pypi.org/project/python_qt_binding/).
 
 ## Install
@@ -30,7 +30,7 @@ achieve this is to use pip.
 pip install PyQt5
 ```
 
-or 
+or
 
 ```bash
 pip install pyside2
@@ -72,10 +72,10 @@ The live coding environment has built in support for Python QML modules.
 The idea is to place QML and Python code in the same directory, similar to how you would create a Qt/C++ application.
 Additionally, with Python we have the advantage of being able to discover modules automatically.
 
-For this purpose add `register_qml_types` function to the `__init__.py` of your Python QML module. 
+For this purpose add `register_qml_types` function to the `__init__.py` of your Python QML module.
 See the example in [example/module/\_\_init__.py](./example/module/__init__.py).
 
-However, so far automatic reloading of Python code is not support. 
+However, so far automatic reloading of Python code is not support.
 When you work on a Python module please use the `Restart` button which restarts the live coding application instead.
 
 ## Forcing PyQt or Python for Qt (PySide2) usage

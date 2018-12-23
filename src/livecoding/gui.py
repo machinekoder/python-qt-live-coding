@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 import sys
 import os
 import signal
@@ -67,7 +67,6 @@ def main(main_file, arguments):
     app.setApplicationName('Python Qt Live Coding')
     app.setWindowIcon(QIcon(os.path.join(MODULE_PATH, 'icon.png')))
 
-    # noinspection PyUnusedLocal
-    gui = LiveCodingGui(arguments, main_file)
+    _gui = LiveCodingGui(arguments, main_file)  # noqa: F841
 
     sys.exit(app.exec_())
