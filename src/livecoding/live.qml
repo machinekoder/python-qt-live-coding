@@ -44,35 +44,29 @@ ApplicationWindow {
     property alias height: root.height
     property alias x: root.x
     property alias y: root.y
-    property alias  visibility: root.visibility
-  }
-
-  Button {
-    id: dummyButton
-    visible: false
-  }
-
-  Item {
-    anchors.top: parent.top
-    anchors.left: parent.left
-    anchors.right: parent.right
-    height: dummyButton.height / 2
-    width: height
-    z: 10
-    visible: contentItem.loaded
-
-    MouseArea {
-       id: smallArea
-       anchors.fill: parent
-       hoverEnabled: true
-       propagateComposedEvents: true
-
-       onClicked: mouse.accepted = false
-       onEntered: fullArea.visible = true
-    }
+    property alias visibility: root.visibility
+    property alias hideToolBar: hideToolBarCheck.checked
   }
 
   MouseArea {
+    id: smallArea
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 10
+    width: height
+    z: 10
+    visible: contentItem.loaded && !fullArea.delayedVisible
+    hoverEnabled: true
+    propagateComposedEvents: true
+
+    onClicked: mouse.accepted = false
+    onEntered: fullArea.visible = true
+  }
+
+  MouseArea {
+    property bool delayedVisible: false
+
     id: fullArea
     anchors.top: parent.top
     anchors.right: parent.right
@@ -87,6 +81,13 @@ ApplicationWindow {
     onPressed: mouse.accepted = false
     onReleased: mouse.accepted  = false
     onExited: visible = false
+    onVisibleChanged: delayTimer.start()
+
+    Timer {
+      id: delayTimer
+      interval: 10
+      onTriggered: fullArea.delayedVisible = fullArea.visible  // break binding loop
+    }
   }
 
   ColumnLayout {
@@ -95,7 +96,8 @@ ApplicationWindow {
 
     RowLayout {
       id: menuBar
-      visible: smallArea.containsMouse || fullArea.containsMouse|| !contentItem.loaded
+      visible: !hideToolBarCheck.checked ||
+        (smallArea.containsMouse || fullArea.containsMouse || !contentItem.loaded)
 
       Button {
         Layout.preferredHeight: 30
@@ -123,6 +125,12 @@ ApplicationWindow {
 
       Item {
         Layout.fillWidth: true
+      }
+
+      CheckBox {
+        id: hideToolBarCheck
+        text: qsTr("Hide Tool Bar")
+        checked: false
       }
 
       CheckBox {
