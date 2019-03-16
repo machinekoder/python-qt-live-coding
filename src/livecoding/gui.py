@@ -16,7 +16,15 @@ from .moduleloader import recursively_register_types
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
-def start_livecoding_gui(engine, project_path, main_file):
+def start_livecoding_gui(engine, project_path, main_file, live_qml=''):
+    """
+    Starts the live coding GUI.
+    :param engine: The QML engine.
+    :param project_path: Path where the projects QML file are located.
+    :param main_file: The main application file of the project.
+    :param live_qml: Optional live window QML file.
+    :return:
+    """
     register_types()
     recursively_register_types(project_path)
 
@@ -25,7 +33,11 @@ def start_livecoding_gui(engine, project_path, main_file):
     engine.rootContext().setContextProperty(PythonReloader.__name__, reloader)
     engine.rootContext().setContextProperty('userProjectPath', project_path)
 
-    qml_main = os.path.join(MODULE_PATH, 'live.qml')
+    if live_qml:
+        qml_main = live_qml
+        engine.addImportPath(os.path.join(MODULE_PATH, '..'))
+    else:
+        qml_main = os.path.join(MODULE_PATH, 'live.qml')
     engine.load(qml_main)
 
 
