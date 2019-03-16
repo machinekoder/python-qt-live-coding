@@ -20,7 +20,9 @@ class MyApp(QObject, object):
         self._engine = QQmlApplicationEngine()
         self._engine.addImportPath(PROJECT_PATH)
         if live:
-            start_livecoding_gui(self._engine, PROJECT_PATH, __file__)
+            start_livecoding_gui(
+                self._engine, PROJECT_PATH, __file__, live_qml='./live.qml'
+            )  # live_qml is optional and can be used to customize the live coding environment
         else:
             qml_main = os.path.join(PROJECT_PATH, 'main.qml')
             self._engine.load(qml_main)
