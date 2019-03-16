@@ -8,7 +8,7 @@ import livecoding 1.0
 ApplicationWindow {
   id: root
   visible: true
-  title: qsTr("Python Qt Live Coding")
+  title: qsTr("My AppLive Coding")
   width: 1024
   height: 800
   flags: liveCoding.flags 

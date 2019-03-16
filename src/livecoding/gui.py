@@ -16,28 +16,41 @@ from .moduleloader import recursively_register_types
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
+def start_livecoding_gui(engine, project_path, main_file, live_qml=''):
+    """
+    Starts the live coding GUI.
+    :param engine: The QML engine.
+    :param project_path: Path where the projects QML file are located.
+    :param main_file: The main application file of the project.
+    :param live_qml: Optional live window QML file.
+    :return:
+    """
+    register_types()
+    recursively_register_types(project_path)
+
+    global reloader  # necessary to make reloading work, prevents garbage collection
+    reloader = PythonReloader(main_file)
+    engine.rootContext().setContextProperty(PythonReloader.__name__, reloader)
+    engine.rootContext().setContextProperty('userProjectPath', project_path)
+
+    if live_qml:
+        qml_main = live_qml
+        engine.addImportPath(os.path.join(MODULE_PATH, '..'))
+    else:
+        qml_main = os.path.join(MODULE_PATH, 'live.qml')
+    engine.load(qml_main)
+
+
 class LiveCodingGui(QObject):
     def __init__(self, args, main_file, parent=None):
         super(LiveCodingGui, self).__init__(parent)
         sys.excepthook = self._display_error
 
-        register_types()
-
-        qml_main = os.path.join(MODULE_PATH, 'live.qml')
-
         project_path = os.path.realpath(args.path)
-        recursively_register_types(project_path)
 
         self._engine = QQmlApplicationEngine()
-        self._engine.addImportPath(os.path.abspath('.'))
-        self._engine.rootContext().setContextProperty('parsedArguments', vars(args))
-
-        global reloader  # necessary to make reloading work, prevents garbage collection
-        reloader = PythonReloader(main_file)
-        self._engine.rootContext().setContextProperty(PythonReloader.__name__, reloader)
-        self._engine.rootContext().setContextProperty('userProjectPath', project_path)
-
-        self._engine.load(qml_main)
+        self._engine.addImportPath(project_path)
+        start_livecoding_gui(self._engine, project_path, main_file)
 
         self._start_check_timer()
 
@@ -62,7 +75,7 @@ def main(main_file, arguments):
     signal.signal(signal.SIGINT, lambda *args: LiveCodingGui.shutdown())
 
     app = QApplication(sys.argv)
-    app.setOrganizationName('Machine Koder')
+    app.setOrganizationName('machinekoder.com')
     app.setOrganizationDomain('machinekoder.com')
     app.setApplicationName('Python Qt Live Coding')
     app.setWindowIcon(QIcon(os.path.join(MODULE_PATH, 'icon.png')))

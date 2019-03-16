@@ -6,7 +6,8 @@ from python_qt_binding.QtCore import QObject, Property, Signal, QUrl, Slot
 
 class ProjectBrowser(QObject):
     projectPathChanged = Signal(QUrl)
-    qmlFilesChanged = Signal('QStringList')
+    qmlFilesChanged = Signal()
+    extensionsChanged = Signal()
 
     def __init__(self, parent=None):
         super(ProjectBrowser, self).__init__(parent)
@@ -16,10 +17,10 @@ class ProjectBrowser(QObject):
             os.path.realpath(os.path.join(path, '..'))
         )
         self._qml_files = []
-
-        self.update()
+        self._extensions = []
 
         self.projectPathChanged.connect(self._update_files)
+        self.extensionsChanged.connect(self._update_files)
 
     @Property(QUrl, notify=projectPathChanged)
     def projectPath(self):
@@ -36,6 +37,17 @@ class ProjectBrowser(QObject):
     def qmlFiles(self):
         return self._qml_files
 
+    @Property('QStringList', notify=extensionsChanged)
+    def extensions(self):
+        return self._extensions
+
+    @extensions.setter
+    def extensions(self, value):
+        if self._extensions == value:
+            return
+        self._extensions = value
+        self.extensionsChanged.emit()
+
     @Slot()
     def update(self):
         self._update_files()
@@ -47,7 +59,7 @@ class ProjectBrowser(QObject):
             for file in files:
                 path = os.path.join(root, subdir, file)
                 _, ext = os.path.splitext(path)
-                if ext == '.qml':
+                if ext[1:].lower() in self._extensions:
                     file_list.append(path)
         self._qml_files = file_list
-        self.qmlFilesChanged.emit(self._qml_files)
+        self.qmlFilesChanged.emit()
