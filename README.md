@@ -73,7 +73,7 @@ The idea is to place QML and Python code in the same directory, similar to how y
 Additionally, with Python we have the advantage of being able to discover modules automatically.
 
 For this purpose add `register_qml_types` function to the `__init__.py` of your Python QML module.
-See the example in [example/module/\_\_init__.py](./example/module/__init__.py).
+See the example in [examples/standalone/module/\_\_init__.py](./examples/standalone/module/__init__.py).
 
 However, so far automatic reloading of Python code is not support.
 When you work on a Python module please use the `Restart` button which restarts the live coding application instead.
