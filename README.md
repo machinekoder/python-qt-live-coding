@@ -65,6 +65,20 @@ Now press the `Edit` button. Your favorite text editor should open promptly.
 
 Edit the code inside the editor und you will see the GUI updates instantly when you save the document.
 
+### Integrate in your application
+
+Alternatively, you can integrate live coding into your Python Qt application.
+
+This especially useful if you want to customize the live coding GUI for your needs.
+
+For this purpose you need to do following things:
+
+1. Integrate the `start_live_coding` function into your `main.py`.
+2. Add a command line argument for live coding.
+3. Optionally, add a custom `live.qml`.
+
+To learn more about how this works please take a look the [*integrated* example](./examples/integrated).
+
 ## Python QML module support
 
 The live coding environment has built in support for Python QML modules.
