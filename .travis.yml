@@ -6,7 +6,7 @@ python:
 #  - TOX_ENV=py
 #  - TOX_ENV=flake8
 install:
-  - pip install -e .[dev]
+  - pip install -I -e .[dev]
   - pip install PySide2
 script:
   - pytest -v .
