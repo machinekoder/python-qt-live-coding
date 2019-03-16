@@ -9,6 +9,10 @@
 This project provides a live coding environment for Python and Qt. It supports both [PyQt](https://riverbankcomputing.com/software/pyqt/intro) and [Qt for Python (PySide2)](http://wiki.qt.io/Qt_for_Python)
 via the [python_qt_binding](https://pypi.org/project/python_qt_binding/).
 
+**See also**:
+
+* [cpp-qt-live-coding](https://github.com/machinekoder/cpp-qt-live-coding): The C++ version of this project.
+
 ## Install
 
 To install the live coding environment run:
