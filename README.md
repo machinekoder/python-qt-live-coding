@@ -1,7 +1,7 @@
 # Live Coding Environment for Python, Qt and QML
 [![PyPI version](https://badge.fury.io/py/python-qt-live-coding.svg)](https://badge.fury.io/py/python-qt-live-coding)
 [![Build Status](https://travis-ci.org/machinekoder/python-qt-live-coding.svg?branch=master)](https://travis-ci.org/machinekoder/python-qt-live-coding)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/machinekoder/speed-friending-matcher/blob/master/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/machinekoderpython-qt-live-coding/blob/master/LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 ![Logo](./src/livecoding/icon.png)
