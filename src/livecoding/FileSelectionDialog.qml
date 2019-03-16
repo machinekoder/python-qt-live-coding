@@ -35,6 +35,7 @@ Item {
   }
 
   Settings {
+    category: "live_coding"
     property alias filterText: filterInput.text
   }
 

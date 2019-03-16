@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
+import signal
+import inspect
 
 from python_qt_binding.QtCore import QObject, Slot
 
@@ -18,4 +20,7 @@ class PythonReloader(QObject):
             python_path += ':{}'.format(import_dir)
         os.environ['PYTHONPATH'] = python_path
         args = [sys.executable, self._main] + sys.argv[1:]
+        handler = signal.getsignal(signal.SIGTERM)
+        if handler:
+            handler(signal.SIGTERM, inspect.currentframe())
         os.execv(sys.executable, args)
