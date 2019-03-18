@@ -11,7 +11,7 @@ ApplicationWindow {
   title: qsTr("Python Qt Live Coding")
   width: 1024
   height: 800
-  flags: liveCoding.flags 
+  flags: liveCoding.flags
   visibility: liveCoding.visibility
 
   Component.onCompleted: {
