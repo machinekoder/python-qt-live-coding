@@ -1,4 +1,5 @@
 include README.md
-recursive-include example *.py *.qml qmldir
+recursive-include examples *.py *.qml qmldir
 include src/livecoding/*.qml
 include src/livecoding/*.png
+include src/livecoding/qmldir
