@@ -13,6 +13,7 @@ via the [python_qt_binding](https://pypi.org/project/python_qt_binding/).
 
 * [My blog post about Qt/QML live coding](https://machinekoder.com/speed-up-your-gui-development-with-python-qt-and-qml-live-coding/)
 * [cpp-qt-live-coding](https://github.com/machinekoder/cpp-qt-live-coding): The C++ version of this project.
+* [Lightning Talk from QtDay.it 19](https://youtu.be/jbOPWncKE1I?t=1856)
 
 ## Install
 
