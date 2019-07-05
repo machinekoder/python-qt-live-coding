@@ -4,7 +4,7 @@ import sys
 import signal
 import inspect
 
-from python_qt_binding.QtCore import QObject, Slot
+from qtpy.QtCore import QObject, Slot
 
 
 class PythonReloader(QObject):

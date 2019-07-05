@@ -4,10 +4,10 @@ import os
 import signal
 import traceback
 
-from python_qt_binding.QtCore import QTimer, QObject
-from python_qt_binding.QtGui import QIcon
-from python_qt_binding.QtWidgets import QApplication
-from python_qt_binding.QtQml import QQmlApplicationEngine
+from qtpy.QtCore import QTimer, QObject
+from qtpy.QtGui import QIcon
+from qtpy.QtWidgets import QApplication
+from qtpy.QtQml import QQmlApplicationEngine
 
 from .register_qml_types import register_types
 from .pythonreloader import PythonReloader

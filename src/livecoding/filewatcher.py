@@ -2,7 +2,7 @@
 import os
 from fnmatch import fnmatch
 
-from python_qt_binding.QtCore import (
+from qtpy.QtCore import (
     QObject,
     Property,
     Signal,
@@ -102,7 +102,7 @@ class FileWatcher(QObject):
             return False
 
         local_file = self._file_url.toLocalFile()
-        if local_file is '':
+        if local_file == '':
             return False
 
         if self._recursive and os.path.isdir(local_file):
