@@ -4,7 +4,7 @@ import os
 import signal
 import traceback
 
-from qtpy.QtCore import QTimer, QObject
+from qtpy.QtCore import QTimer, QObject, QUrl
 from qtpy.QtGui import QIcon
 from qtpy.QtWidgets import QApplication
 from qtpy.QtQml import QQmlApplicationEngine
@@ -31,7 +31,9 @@ def start_livecoding_gui(engine, project_path, main_file, live_qml=''):
     global reloader  # necessary to make reloading work, prevents garbage collection
     reloader = PythonReloader(main_file)
     engine.rootContext().setContextProperty(PythonReloader.__name__, reloader)
-    engine.rootContext().setContextProperty('userProjectPath', project_path)
+    engine.rootContext().setContextProperty(
+        'userProjectPath', QUrl.fromLocalFile(project_path)
+    )
 
     if live_qml:
         qml_main = live_qml

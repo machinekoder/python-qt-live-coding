@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
-from qtpy.QtCore import QObject, Property, Signal, QUrl, Slot
+from qtpy.QtCore import QObject, Property, Signal, QUrl, QDir, Slot
 
 
 class ProjectBrowser(QObject):
@@ -54,12 +54,13 @@ class ProjectBrowser(QObject):
 
     def _update_files(self):
         file_list = []
-        root = self._project_path.toLocalFile()
+        root = QDir.toNativeSeparators(self._project_path.toLocalFile())
         for subdir, dirs, files in os.walk(root):
-            for file in files:
-                path = os.path.join(root, subdir, file)
+            for f in files:
+                path = os.path.join(root, subdir, f)
                 _, ext = os.path.splitext(path)
                 if ext[1:].lower() in self._extensions:
-                    file_list.append(path)
+                    # convert file separators to consistent style
+                    file_list.append(QUrl.fromLocalFile(path).toLocalFile())
         self._qml_files = file_list
         self.qmlFilesChanged.emit()
