@@ -17,20 +17,21 @@ Item {
     readonly property var filteredModel: filterModel(root.model)
 
     function filterModel(model) {
-      var newModel = [];
+      var newModel = []
       for (var key in model) {
-        var item = model[key];
+        var item = model[key]
         if (item.toLowerCase().indexOf(filterInput.text.toLowerCase()) !== -1) {
-          newModel.push(item);
+          newModel.push(item)
         }
       }
-      return newModel;
+      return newModel
     }
 
     function select(file) {
-      root.file = "file://" + file;
-      root.folder = "file://" + new String(file).substring(0, file.lastIndexOf('/'));
-      root.selected = true;
+      root.file = "file://" + file
+      root.folder = "file://" + new String(file).substring(
+            0, file.lastIndexOf('/'))
+      root.selected = true
     }
   }
 
@@ -49,7 +50,7 @@ Item {
 
       onFocusChanged: {
         if (focus) {
-          selectAll();
+          selectAll()
         }
       }
     }
@@ -65,12 +66,12 @@ Item {
         readonly property string data: d.filteredModel[index]
         text: data
         onClicked: d.select(text)
-        height: visible? 30 : 0
+        height: visible ? 30 : 0
       }
 
       onCountChanged: {
         if (root.autoSelect && (count == 1) && !root.selected) {
-          selectTimer.start();
+          selectTimer.start()
         }
       }
     }
@@ -79,6 +80,6 @@ Item {
   Timer {
     id: selectTimer
     interval: 10
-    onTriggered: d.select(d.filteredModel[0]);
+    onTriggered: d.select(d.filteredModel[0])
   }
 }

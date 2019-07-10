@@ -29,13 +29,13 @@ Item {
     }
 
     function unload() {
-      loader.source = "";
-      fileDialog.selected = false;
-      browser.update();
+      loader.source = ""
+      fileDialog.selected = false
+      browser.update()
     }
 
     function restart() {
-      PythonReloader.restart();
+      PythonReloader.restart()
     }
   }
 
@@ -85,14 +85,14 @@ Item {
 
     onClicked: mouse.accepted = false
     onPressed: mouse.accepted = false
-    onReleased: mouse.accepted  = false
+    onReleased: mouse.accepted = false
     onExited: visible = false
     onVisibleChanged: delayTimer.start()
 
     Timer {
       id: delayTimer
       interval: 10
-      onTriggered: fullArea.delayedVisible = fullArea.visible  // break binding loop
+      onTriggered: fullArea.delayedVisible = fullArea.visible // break binding loop
     }
   }
 
@@ -102,8 +102,9 @@ Item {
 
     RowLayout {
       id: menuBar
-      visible: !hideToolBarCheck.checked ||
-        (smallArea.containsMouse || fullArea.containsMouse || !contentItem.loaded)
+      visible: !hideToolBarCheck.checked || (smallArea.containsMouse
+                                             || fullArea.containsMouse
+                                             || !contentItem.loaded)
 
       Button {
         Layout.preferredHeight: 30
@@ -147,10 +148,9 @@ Item {
 
         onClicked: {
           if (checked) {
-            root.visibility = Window.FullScreen;
-          }
-          else {
-            root.visibility = Window.AutomaticVisibility;
+            root.visibility = Window.FullScreen
+          } else {
+            root.visibility = Window.AutomaticVisibility
           }
         }
       }
@@ -161,10 +161,9 @@ Item {
 
         onClicked: {
           if (checked) {
-            root.flags = root.flags | Qt.WindowStaysOnTopHint;
-          }
-          else {
-            root.flags = root.flags & ~Qt.WindowStaysOnTopHint;
+            root.flags = root.flags | Qt.WindowStaysOnTopHint
+          } else {
+            root.flags = root.flags & ~Qt.WindowStaysOnTopHint
           }
         }
       }
@@ -182,11 +181,11 @@ Item {
 
         onStatusChanged: {
           if (status !== Loader.Error) {
-            return;
+            return
           }
 
-          var msg = loader.sourceComponent.errorString();
-          errorLabel.text = qsTr("QML Error: Loading QML file failed:\n") + msg;
+          var msg = loader.sourceComponent.errorString()
+          errorLabel.text = qsTr("QML Error: Loading QML file failed:\n") + msg
         }
       }
 
@@ -208,7 +207,7 @@ Item {
 
         onSelectedChanged: {
           if (selected) {
-            d.reload();
+            d.reload()
           }
         }
       }
@@ -227,7 +226,7 @@ Item {
     recursive: true
     enabled: fileDialog.selected
     onFileChanged: {
-      d.reload();
+      d.reload()
     }
     nameFilters: root.defaultNameFilters.concat(root.additionalNameFilters)
   }
