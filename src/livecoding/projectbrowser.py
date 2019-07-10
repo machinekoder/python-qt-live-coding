@@ -61,6 +61,9 @@ class ProjectBrowser(QObject):
                 _, ext = os.path.splitext(path)
                 if ext[1:].lower() in self._extensions:
                     # convert file separators to consistent style
-                    file_list.append(path)
+                    url = QUrl.fromLocalFile(path).toLocalFile()
+                    if not url.startswith('/'):
+                        url = '/' + url
+                    file_list.append(url)
         self._qml_files = file_list
         self.qmlFilesChanged.emit()
