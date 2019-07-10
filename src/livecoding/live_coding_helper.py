@@ -1,21 +1,17 @@
 # -*- coding: utf-8 -*-
 import os
 
-from python_qt_binding.QtCore import QObject, Slot, QUrl
-from python_qt_binding.QtGui import QDesktopServices
+from qtpy.QtQuick import QQuickItem
+from qtpy.QtQml import QQmlEngine
+from qtpy.QtCore import Slot, QUrl
+from qtpy.QtGui import QDesktopServices
 
 
-class LiveCoding(QObject):
+class LiveCodingHelper(QQuickItem):
     _engine = None
 
     def __init__(self, parent=None):
-        super(LiveCoding, self).__init__(parent)
-
-    @staticmethod
-    def qml_singleton_provider(engine, _):
-        LiveCoding._engine = engine
-
-        return LiveCoding()
+        super(LiveCodingHelper, self).__init__(parent)
 
     @Slot(QUrl, result=bool)
     def openUrlWithDefaultApplication(self, url):
@@ -23,7 +19,8 @@ class LiveCoding(QObject):
 
     @Slot()
     def clearQmlComponentCache(self):
-        LiveCoding._engine.clearComponentCache()
+        context = QQmlEngine.contextForObject(self)
+        context.engine().clearComponentCache()
         # maybe qmlClearTypeRegistrations
 
     @Slot(str, result=QUrl)

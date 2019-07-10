@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from python_qt_binding.QtCore import QObject, pyqtSignal, pyqtProperty
+from qtpy.QtCore import QObject, Signal, Property
 
 
 class Calculator(QObject):
 
-    in1Changed = pyqtSignal(float)
-    in2Changed = pyqtSignal(float)
-    outChanged = pyqtSignal(float)
+    in1Changed = Signal(float)
+    in2Changed = Signal(float)
+    outChanged = Signal(float)
 
     def __init__(self, parent=None):
         super(Calculator, self).__init__(parent)
@@ -18,7 +18,7 @@ class Calculator(QObject):
         self.in1Changed.connect(lambda _: self._calculate())
         self.in2Changed.connect(lambda _: self._calculate())
 
-    @pyqtProperty(float, notify=in1Changed)
+    @Property(float, notify=in1Changed)
     def in1(self):
         return self._in1
 
@@ -29,7 +29,7 @@ class Calculator(QObject):
         self._in1 = value
         self.in1Changed.emit(value)
 
-    @pyqtProperty(float, notify=in2Changed)
+    @Property(float, notify=in2Changed)
     def in2(self):
         return self._in2
 
@@ -40,7 +40,7 @@ class Calculator(QObject):
         self._in2 = value
         self.in2Changed.emit(value)
 
-    @pyqtProperty(float, notify=outChanged)
+    @Property(float, notify=outChanged)
     def out(self):
         return self._out
 

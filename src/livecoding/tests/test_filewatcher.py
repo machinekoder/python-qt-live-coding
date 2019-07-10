@@ -2,8 +2,8 @@
 import pytest
 import shutil
 import os
-from python_qt_binding.QtCore import QUrl
-from python_qt_binding.QtTest import QSignalSpy
+from qtpy.QtCore import QUrl
+from qtpy.QtTest import QSignalSpy
 
 
 SIGNAL_WAIT_TIMEOUT = 50

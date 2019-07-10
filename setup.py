@@ -10,7 +10,7 @@ with open(path.join(this_directory, 'README.md')) as f:
 
 setup(
     name='python-qt-live-coding',
-    version='0.3.1',
+    version='0.4.2',
     packages=['livecoding'],
     package_dir={'': 'src'},
     url='https://github.com/machinekoder/python-qt-live-coding/',
@@ -20,7 +20,7 @@ setup(
     description='Live coding for Python, Qt and QML',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    install_requires=['six', 'python_qt_binding'],
+    install_requires=['six', 'qtpy'],
     extras_require={
         'dev': [
             'pytest',
