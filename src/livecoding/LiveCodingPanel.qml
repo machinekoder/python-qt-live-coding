@@ -15,13 +15,13 @@ Item {
     id: d
 
     function reload() {
-      loader.source = "";
-      LiveCoding.clearQmlComponentCache();
-      loader.source = fileDialog.file;
+      loader.source = ""
+      helper.clearQmlComponentCache()
+      loader.source = fileDialog.file
     }
 
     function openWithSystemEditor() {
-      LiveCoding.openUrlWithDefaultApplication(fileDialog.file);
+      helper.openUrlWithDefaultApplication(fileDialog.file)
     }
 
     function unload() {
@@ -33,6 +33,10 @@ Item {
     function restart() {
       PythonReloader.restart();
     }
+  }
+
+  LiveCodingHelper {
+    id: helper
   }
 
   Settings {
