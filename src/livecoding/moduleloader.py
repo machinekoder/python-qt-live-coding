@@ -25,6 +25,7 @@ def recursively_register_types(root_path):
 def _register_module(file_path, root_path):
     path = os.path.relpath(file_path, root_path)
     name = os.path.dirname(path).replace('/', '.')
+    name = os.path.dirname(path).replace('\\', '.')
     try:
         if name in sys.modules:
             reload_module(sys.modules[name])
