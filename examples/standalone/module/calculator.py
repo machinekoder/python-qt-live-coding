@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from qtpy.QtCore import QObject, Signal, Property
 
 

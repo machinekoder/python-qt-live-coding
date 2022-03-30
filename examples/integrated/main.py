@@ -4,9 +4,9 @@ import sys
 import signal
 import argparse
 
-from PyQt5.QtGui import QGuiApplication
-from PyQt5.QtCore import QObject, QTimer
-from PyQt5.QtQml import QQmlApplicationEngine
+from qtpy.QtGui import QGuiApplication
+from qtpy.QtCore import QObject, QTimer
+from qtpy.QtQml import QQmlApplicationEngine
 
 from livecoding import start_livecoding_gui
 
@@ -52,6 +52,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     app = QGuiApplication(sys.argv)
+    app.setOrganizationName('machinekoder.com')
+    app.setOrganizationDomain('machinekoder.com')
 
     gui = MyApp(live=args.live)
 

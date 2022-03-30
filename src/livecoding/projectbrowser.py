@@ -2,6 +2,7 @@
 import os
 
 from qtpy.QtCore import QObject, Property, Signal, QUrl, QDir, Slot
+from qtpy.QtQml import QJSValue
 
 
 class ProjectBrowser(QObject):
@@ -33,16 +34,17 @@ class ProjectBrowser(QObject):
         self._project_path = value
         self.projectPathChanged.emit(value)
 
-    @Property('QStringList', notify=qmlFilesChanged)
+    @Property('QVariant', notify=qmlFilesChanged)
     def qmlFiles(self):
         return self._qml_files
 
-    @Property('QStringList', notify=extensionsChanged)
+    @Property('QVariant', notify=extensionsChanged)
     def extensions(self):
         return self._extensions
 
     @extensions.setter
-    def extensions(self, value):
+    def extensions(self, value: QJSValue):
+        value = value.toVariant()
         if self._extensions == value:
             return
         self._extensions = value
@@ -63,7 +65,7 @@ class ProjectBrowser(QObject):
                     # convert file separators to consistent style
                     url = QUrl.fromLocalFile(path).toLocalFile()
                     if not url.startswith('/'):
-                        url = '/' + url
+                        url = f'/{url}'
                     file_list.append(url)
         self._qml_files = file_list
         self.qmlFilesChanged.emit()

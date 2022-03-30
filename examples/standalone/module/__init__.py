@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from qtpy.QtQml import qmlRegisterType
 
 from .calculator import Calculator

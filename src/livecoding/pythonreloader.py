@@ -17,10 +17,9 @@ class PythonReloader(QObject):
         import_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
         python_path = os.environ.get('PYTHONPATH', '')
         if import_dir not in python_path:
-            python_path += ':{}'.format(import_dir)
+            python_path += f':{import_dir}'
         os.environ['PYTHONPATH'] = python_path
         args = [sys.executable, self._main] + sys.argv[1:]
-        handler = signal.getsignal(signal.SIGTERM)
-        if handler:
+        if handler := signal.getsignal(signal.SIGTERM):
             handler(signal.SIGTERM, inspect.currentframe())
         os.execv(sys.executable, args)

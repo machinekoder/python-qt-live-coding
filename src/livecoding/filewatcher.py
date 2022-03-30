@@ -22,12 +22,13 @@ class FileWatcher(QObject):
     fileChanged = Signal()
 
     def __init__(self, parent=None):
-        super(FileWatcher, self).__init__(parent)
+        super().__init__(parent)
 
         self._file_url = QUrl()
         self._enabled = True
         self._recursive = False
         self._name_filters = []
+        self._watched_paths = set()
 
         self._file_system_watcher = QFileSystemWatcher()
 
@@ -35,7 +36,9 @@ class FileWatcher(QObject):
         self.enabledChanged.connect(self._update_watched_file)
         self.recursiveChanged.connect(self._update_watched_file)
         self.nameFiltersChanged.connect(self._update_watched_file)
-        self._file_system_watcher.fileChanged.connect(self._on_watched_file_changed)
+        self._file_system_watcher.fileChanged.connect(
+            self._on_watched_file_changed
+        )
         self._file_system_watcher.directoryChanged.connect(
             self._on_watched_directory_changed
         )
@@ -87,11 +90,9 @@ class FileWatcher(QObject):
         self.nameFiltersChanged.emit(value)
 
     def _update_watched_file(self):
-        files = self._file_system_watcher.files()
-        if files:
+        if files := self._file_system_watcher.files():
             self._file_system_watcher.removePaths(files)
-        directories = self._file_system_watcher.directories()
-        if directories:
+        if directories := self._file_system_watcher.directories():
             self._file_system_watcher.removePaths(directories)
 
         if not self._file_url.isValid() or not self._enabled:
@@ -105,34 +106,40 @@ class FileWatcher(QObject):
         if local_file == '':
             return False
 
-        if self._recursive and os.path.isdir(local_file):
-            new_paths = {local_file}
-            self._file_system_watcher.addPath(local_file)
-
-            it = QDirIterator(
-                local_file, QDirIterator.Subdirectories | QDirIterator.FollowSymlinks
+        if os.path.isdir(local_file):
+            changed, self._watched_paths = self._update_watched_directory(
+                local_file, self._watched_paths
             )
-            while it.hasNext():
-                filepath = it.next()
-                filename = os.path.basename(filepath)
-                filtered = False
-                for wildcard in self._name_filters:
-                    if fnmatch(filename, wildcard):
-                        filtered = True
-                        break
-                if filename == '..' or filename == '.' or filtered:
-                    continue
-                self._file_system_watcher.addPath(filepath)
-                new_paths.add(filepath)
-
-            return new_paths != set(files).union(set(directories))
+            return changed
 
         elif os.path.exists(local_file):
             self._file_system_watcher.addPath(local_file)
+            return True
 
         else:
             qWarning('File to watch does not exist')
-        return False
+            return False
+
+    def _update_watched_directory(self, local_file, watched_paths):
+        new_paths = {local_file}
+        self._file_system_watcher.addPath(local_file)
+
+        options = QDirIterator.FollowSymlinks
+        if self._recursive:
+            options |= QDirIterator.Subdirectories
+        it = QDirIterator(local_file, options)
+        while it.hasNext():
+            filepath = it.next()
+            filename = os.path.basename(filepath)
+            filtered = any(
+                fnmatch(filename, wildcard) for wildcard in self._name_filters
+            )
+            if filename == '..' or filename == '.' or filtered:
+                continue
+            self._file_system_watcher.addPath(filepath)
+            new_paths.add(filepath)
+
+        return new_paths != watched_paths, new_paths
 
     def _on_watched_file_changed(self):
         if self._enabled:

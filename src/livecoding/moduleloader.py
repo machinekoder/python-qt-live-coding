@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 import os
 import sys
 
-from importlib import import_module
-from six.moves import reload_module
+from importlib import import_module, reload
 
 
 def recursively_register_types(root_path):
@@ -11,26 +9,33 @@ def recursively_register_types(root_path):
         sys.path.insert(0, root_path)
 
     for root, dirs, files in os.walk(root_path):
+        if '.venv' in root or '__pycache__' in root:
+            continue
         for file in files:
-            if file != '__init__.py':
+            _, ext = os.path.splitext(file)
+            if ext != '.py':
                 continue
+
             path = os.path.join(root, file)
             with open(path, 'rt') as f:
                 data = f.read()
-            if 'def register_types()' not in data:
-                continue
-            _register_module(path, root_path)
+            if ('QML_IMPORT_NAME' in data and 'QML_IMPORT_MAJOR_VERSION' in data) or (
+                file == '__init__.py' and 'def register_types()' in data
+            ):
+                _register_module(path, root_path)
 
 
 def _register_module(file_path, root_path):
     path = os.path.relpath(file_path, root_path)
-    name = os.path.dirname(path).replace('/', '.')
+    path = path[:-3] if path.endswith('.py') else os.path.dirname(path)
+    name = path.replace('/', '.')
     try:
         if name in sys.modules:
-            reload_module(sys.modules[name])
+            reload(sys.modules[name])
             module = sys.modules[name]
         else:
             module = import_module(name)
-        module.register_types()
+        if hasattr(module, 'register_types'):
+            module.register_types()
     except Exception as e:
-        print('Error importing %s: %s' % (name, e))
+        print(f'Error importing {name}: {e}')

@@ -1,9 +1,9 @@
-import QtQuick 2.0
-import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.3
-import QtQuick.Window 2.0
-import Qt.labs.settings 1.0
-import livecoding 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Window
+import Qt.labs.settings
+import livecoding
 
 Item {
   id: root
@@ -12,7 +12,7 @@ Item {
   property int visibility: Window.AutomaticVisibility
 
   readonly property var defaultNameFilters: ["*.qmlc", "*.jsc", "*.pyc", ".#*", ".*", "*~", "__pycache__", "*___jb_tmp___", // PyCharm safe write
-    "*___jb_old___"]
+    "*___jb_old___", ".venv"]
   property var additionalNameFilters: []
 
   QtObject {
@@ -83,9 +83,9 @@ Item {
     propagateComposedEvents: true
     visible: false
 
-    onClicked: mouse.accepted = false
-    onPressed: mouse.accepted = false
-    onReleased: mouse.accepted = false
+    onClicked: (mouse) => {mouse.accepted = false}
+    onPressed: (mouse) => {mouse.accepted = false}
+    onReleased: (mouse) => {mouse.accepted = false}
     onExited: visible = false
     onVisibleChanged: delayTimer.start()
 
@@ -202,7 +202,7 @@ Item {
       FileSelectionDialog {
         id: fileDialog
         anchors.fill: parent
-        model: browser.qmlFiles
+        model: browser ? browser.qmlFiles : []
         visible: !contentItem.loaded
 
         onSelectedChanged: {
@@ -222,7 +222,7 @@ Item {
 
   FileWatcher {
     id: fileWatcher
-    fileUrl: browser.projectPath
+    fileUrl: browser ? browser.projectPath : ""
     recursive: true
     enabled: fileDialog.selected
     onFileChanged: {

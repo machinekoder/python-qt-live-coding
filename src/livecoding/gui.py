@@ -16,6 +16,14 @@ from .moduleloader import recursively_register_types
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
+class Global:
+    def __init__(self):
+        self.reloader = None
+
+
+g = Global()
+
+
 def start_livecoding_gui(engine, project_path, main_file, live_qml=''):
     """
     Starts the live coding GUI.
@@ -28,9 +36,8 @@ def start_livecoding_gui(engine, project_path, main_file, live_qml=''):
     register_types()
     recursively_register_types(project_path)
 
-    global reloader  # necessary to make reloading work, prevents garbage collection
-    reloader = PythonReloader(main_file)
-    engine.rootContext().setContextProperty(PythonReloader.__name__, reloader)
+    g.reloader = PythonReloader(main_file)
+    engine.rootContext().setContextProperty(PythonReloader.__name__, g.reloader)
     engine.rootContext().setContextProperty(
         'userProjectPath', QUrl.fromLocalFile(project_path)
     )
